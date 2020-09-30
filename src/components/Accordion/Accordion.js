@@ -4,6 +4,7 @@ import PropTypes from "prop-types"
 
 import Arrow from "./Arrow"
 import { gray } from "../../colors"
+import "../../styles.scss"
 
 const Container = styled.div`
     /* border-bottom: 1px solid ${gray.base};

@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { Button } from "../Button"
 import vSchoolLogo from "../../assets/vs-logo.svg"
 import * as colors from "../../colors"
+import "../../styles.scss"
 
 const FooterContainer = styled.div`
     position: relative;

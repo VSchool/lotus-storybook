@@ -3,6 +3,7 @@ import styled from "styled-components"
 import PropTypes from "prop-types"
 import { decideChipStatus } from "./utils"
 import { black } from "../../colors"
+import "../../styles.scss"
 
 const StatusChipContainer = styled.div`
     display: flex;
@@ -29,7 +30,6 @@ const ChipText = styled.p`
 
 function StatusChip({ status, children, ...rest }) {
     const { border, backgroundColor, text } = decideChipStatus(status)
-    console.log(children)
     return (
         <StatusChipContainer
             background={backgroundColor}

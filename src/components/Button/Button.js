@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import styled, { css } from "styled-components"
 import { determineButtonColors, determineButtonSize } from "./utils"
 import * as colors from "../../colors"
+import "../../styles.scss"
 
 const StyledButton = styled.button`
     /* Generic Styles */
@@ -15,7 +16,7 @@ const StyledButton = styled.button`
     margin: 0;
     box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.25);
     cursor: pointer;
-    transition: transform .05s ease-in-out ,box-shadow .05s ease-in-out;
+    transition: transform .05s ease-in-out, box-shadow .05s ease-in-out;
 
     /* Color styles */
     ${(props) => {

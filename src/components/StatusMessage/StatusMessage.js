@@ -3,7 +3,7 @@ import styled from "styled-components"
 import { setStatus } from "./utils"
 import PropTypes from 'prop-types'
 import * as colors from "../../colors"
-// import { black, white } from '../../colors/gray'
+import "../../styles.scss"
 
 const StatusMessageContainer = styled.div`
     position: relative;

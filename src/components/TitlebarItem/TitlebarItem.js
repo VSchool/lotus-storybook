@@ -4,6 +4,7 @@ import PropTypes from "prop-types"
 import { displayItemState } from "./utils"
 import * as colors from "../../colors"
 import circleCheck from "../../assets/icons/circleCheck.svg"
+import "../../styles.scss"
 
 const ItemContainer = styled.div`
     position: relative;

@@ -7,6 +7,7 @@ import headerLogo from "../../assets/vs-header-logo.svg"
 import backArrow from "../../assets/icons/arrow-back.svg"
 import accountCircle from "../../assets/icons/account-circle24px.svg"
 import clearX from '../../assets/icons/clear24px.svg'
+import "../../styles.scss"
 
 const HeaderContainer = styled.div`
     position: relative;

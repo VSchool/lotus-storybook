@@ -2,24 +2,26 @@ import React from "react"
 import styled from "styled-components"
 import PropTypes from "prop-types"
 import { StatusChip } from "../StatusChip"
-import { findCardStatus } from "./utils"
-import * as colors from "../../colors"
+import { black, white, blue, gray, yellow, green, pink } from "../../colors"
+import "../../styles.scss"
 
 const CardContainer = styled.div`
     position: relative;
     width: 184px;
-    max-height: 194px;
+    min-height: 152px;
     padding: 16px 16px 16px 16px;
-    background: ${colors.white};
-    border-top: ${props => props.borderTop};
-    border-right: ${props => props.borderRight};
-    border-bottom: ${props => props.borderBottom};
-    border-left: ${props => props.borderLeft};
+    background: ${white};
+    border: 1px solid ${({ color }) => color.base};
+    border-top: 4px solid ${({ color }) => color.base};
     box-sizing: border-box;
-    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.2), 0px 3px 4px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.14), 0px 0px 0px #D8D4CF;
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.2), 0px 3px 4px rgba(0, 0, 0, 0.12),
+        0px 2px 4px rgba(0, 0, 0, 0.14), 0px 0px 0px #d8d4cf;
+    transition: filter 0.1s ease-in-out;
 
     &:hover {
-        filter: drop-shadow(0px 1px 5px rgba(0, 0, 0, 0.2)) drop-shadow(0px 3px 4px rgba(0, 0, 0, 0.12)) drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.14));
+        filter: drop-shadow(0px 1px 5px rgba(0, 0, 0, 0.2))
+            drop-shadow(0px 3px 4px rgba(0, 0, 0, 0.12))
+            drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.14));
     }
 
     @media (min-width: 768px) {
@@ -28,20 +30,13 @@ const CardContainer = styled.div`
     }
 `
 
-const TitleText = styled.p`
-    margin: 0px 0px 0px 0px;
-    font-family: 'aktiv-grotesk';
-    font-style: normal;
-    font-weight: bold;
-    font-size: 16px;
-    line-height: 24px;
-    display: flex;
-    align-items: center;
-    color: ${colors.black};
+const TitleText = styled.h5`
+    margin-bottom: 16px;
+    color: ${black};
 `
 
-const StatusChipWrapper = styled.div`
-    margin: 16px 0px 16px 0px;
+const StyledStatusChip = styled(StatusChip)`
+    margin-bottom: 16px;
 
     @media (min-width: 768px) {
         margin: 8px 0px 8px 0px;
@@ -49,39 +44,33 @@ const StatusChipWrapper = styled.div`
 `
 
 const BottomWrapper = styled.div`
-    display: block;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
 
     @media (min-width: 768px) {
-        display: flex;
-        margin: 0px 0px 0px 0px;
+        flex-direction: row;
     }
 `
 
 const MessageText = styled.p`
-    margin: 0px 0px 0px 0px;
-    font-family: 'aktiv-grotesk';
-    font-style: normal;
-    font-weight: 500;
     font-size: 10px;
     line-height: 24px;
-    display: flex;
-    align-items: center;
-    color: ${colors.black};
+    color: ${black};
 `
 
 const TextButton = styled.button`
-    margin: 8px 0px 0px 0px;
-    padding: 0px;
-    display: block;
+    margin-top: 8px;
+    padding: 0;
     background: none;
-    font-family: 'aktiv-grotesk';
+    font-family: "aktiv-grotesk";
     font-style: normal;
     font-weight: 500;
     font-size: 14px;
     line-height: 16px;
-    text-align: left;
-    color: ${colors.blue.base};
+    color: ${blue.base};
     border: none;
+    cursor: pointer;
 
     @media (min-width: 768px) {
         text-align: right;
@@ -89,39 +78,52 @@ const TextButton = styled.button`
     }
 `
 
-function Card(props) {
-    const {
-        cardStatus,
-        titleText,
-        messageText,
-        topBorder,
-        rightBorder,
-        bottomBorder,
-        leftBorder
-    } = findCardStatus(props.status)
+function Card({ status, title, text, buttonText, onClick, statusChipText }) {
+    const lookup = {
+        "not-started": gray,
+        "up-next": pink,
+        "in-progress": yellow,
+        completed: green,
+    }
+
+    const cardColor = lookup[status]
 
     return (
-        <CardContainer borderTop={topBorder} borderRight={rightBorder} borderBottom={bottomBorder} borderLeft={leftBorder}>
-            <TitleText>{props.title}</TitleText>
-            <StatusChipWrapper><StatusChip status={props.status} /></StatusChipWrapper>
+        <CardContainer color={cardColor}>
+            <TitleText>{title}</TitleText>
+            <StyledStatusChip status={status}>
+                {statusChipText}
+            </StyledStatusChip>
             <BottomWrapper>
-                <MessageText>{props.message}</MessageText>
-                <TextButton>Start</TextButton>
+                <MessageText>{text}</MessageText>
+                {buttonText && (
+                    <TextButton onClick={onClick}>{buttonText}</TextButton>
+                )}
             </BottomWrapper>
         </CardContainer>
     )
 }
 
 Card.propTypes = {
-    status: PropTypes.string.isRequired,
+    /**
+    Determines the color and default `statusChip` text.
+     */
+    status: PropTypes.oneOf([
+        "in-progress",
+        "not-started",
+        "completed",
+        "up-next",
+    ]).isRequired,
     title: PropTypes.string.isRequired,
-    message: PropTypes.string.isRequired
-}
-
-Card.defaultProps = {
-    status: 'in-progress',
-    title: 'Hello',
-    messsage: 'World'
+    text: PropTypes.string.isRequired,
+    /**
+    Make sure to supply an `onClick` prop, or your button will do nothing.
+     */
+    buttonText: PropTypes.string,
+    /**
+    Make sure to supply a `buttonText` prop, or there will be nothing to click to trigger this handler.
+     */
+    onClick: PropTypes.func,
 }
 
 export default Card

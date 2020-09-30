@@ -3,6 +3,7 @@ import styled from "styled-components"
 import PropTypes from "prop-types"
 import { gray } from "../../colors"
 import Accordion from "./Accordion"
+import "../../styles.scss"
 
 const Group = styled.section`
     & > div {
@@ -27,17 +28,13 @@ AccordionGroup.propTypes = {
     AccordionGroup can only accept `<Accordion>` components as children.
      */
     children: function (props) {
-        try {
-            React.Children.forEach(props.children, (child) => {
-                if (child.type.name !== "Accordion") {
-                    throw new Error(
-                        "AccordionGroup can only contain Accordion components as direct children"
-                    )
-                }
-            })
-        } catch (e) {
-            return e
-        }
+        React.Children.forEach(props.children, (child) => {
+            if (child.type.name !== "Accordion") {
+                return new Error(
+                    "AccordionGroup can only contain Accordion components as direct children"
+                )
+            }
+        })
     },
 }
 

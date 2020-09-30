@@ -2,6 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import PropTypes from "prop-types"
 import { TitlebarItem } from "../TitlebarItem"
+import "../../styles.scss"
 
 const TitlebarContainer = styled.div`
     position: relative;
