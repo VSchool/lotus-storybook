@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import ReactDOM from "react-dom"
-import Checkbox from "./components/Controls/Checkbox"
+import SelectionBox from "./components/Controls/SelectionBox"
 
 function App() {
     const [formData, setFormData] = useState({})
 
     function handleChange(e) {
-        const { name, checked } = e.target
+        const { name, value, type, checked } = e.target
+        console.log(value)
         setFormData((prev) => ({
             ...prev,
-            [name]: checked,
+            [name]: type === "checkbox" ? checked : value,
         }))
     }
 
@@ -17,22 +18,44 @@ function App() {
 
     return (
         <>
-            <Checkbox
-                checked={formData["vegan"]}
-                name="vegan"
-                id="vegan"
+            <SelectionBox
+                name="gender"
+                id="male"
                 onChange={handleChange}
+                type="radio"
+                value="male"
+                checked={formData.gender === "male"}
             >
-                Vegan
-            </Checkbox>
-            <Checkbox
+                Male
+            </SelectionBox>
+            <SelectionBox
+                name="gender"
+                id="female"
+                onChange={handleChange}
+                type="radio"
+                value="female"
+                checked={formData.gender === "female"}
+            >
+                Female
+            </SelectionBox>
+            <SelectionBox
                 checked={formData["kosher"]}
                 name="kosher"
                 id="kosher"
                 onChange={handleChange}
+                type="checkbox"
+            >
+                Vegan
+            </SelectionBox>
+            <SelectionBox
+                checked={formData["vegan"]}
+                name="vegan"
+                id="vegan"
+                onChange={handleChange}
+                type="checkbox"
             >
                 Kosher
-            </Checkbox>
+            </SelectionBox>
         </>
     )
 }

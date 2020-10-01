@@ -1,17 +1,19 @@
 import React from "react"
 import styled from "styled-components"
 import PropTypes from "prop-types"
-import * as colors from "../../../colors"
-import "../../../styles.scss"
+import * as colors from "../../colors"
+import "../../styles.scss"
 
-const CheckboxContainer = styled.div`
+const SelectionBoxContainer = styled.div`
     display: flex;
     align-items: center;
     margin-bottom: 16px;
 `
 
-const CheckboxInput = styled.input`
+const SelectionBoxInput = styled.input`
     appearance: none;
+    }};
+
     &:not(:checked) + label:before {
         border: 2px solid ${colors.gray.base};
     }
@@ -25,9 +27,25 @@ const CheckboxInput = styled.input`
         opacity: 0.5;
         cursor: not-allowed;
     }
+
+    &[type="radio"] + label:before {
+        border-radius: 50%;
+    }
+
+    &[type="radio"]:checked + label:after {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        height: 12px;
+        width: 12px;
+        top: 14px;
+        left: 14px;
+        transform: translate(-50%, -50%);
+        background-color: ${colors.gray.base};
+    }
 `
 
-const CheckboxLabel = styled.label`
+const SelectionBoxLabel = styled.label`
     height: 24px;
     position: relative;
     font-family: "aktiv-grotesk";
@@ -50,11 +68,11 @@ const CheckboxLabel = styled.label`
 `
 
 /**
-A component for displaying checkboxes. 
+A component for displaying checkboxes and radio buttons (depending on the provided `type` prop value).
 
-This `Checkbox` component holds no state of its own. You'll need to maintain state separately and pass in the `checked`, `onChange`, `name`, `disabled`, etc. props you need in order to maintain its state externally. It only exists for styling purposes. Because of this, clicking the checkbox/label in the examples below won't change their `:checked` state.
+This `SelectionBox` component holds no state of its own. You'll need to maintain state separately and pass in the `checked`, `onChange`, `name`, `disabled`, etc. props you need in order to maintain its state externally. It only exists for styling purposes. Because of this, clicking the checkbox/label in the examples below won't change their `:checked` state.
  */
-function Checkbox({
+function SelectionBox({
     id,
     disabled,
     checked,
@@ -62,28 +80,30 @@ function Checkbox({
     onChange,
     name,
     value,
+    type,
     ...rest
 }) {
     return (
-        <CheckboxContainer {...rest}>
-            <CheckboxInput
-                type="checkbox"
+        <SelectionBoxContainer {...rest}>
+            <SelectionBoxInput
+                type={type}
                 checked={checked}
                 disabled={disabled}
                 onChange={onChange}
                 name={name}
                 id={id}
+                value={value}
             />
-            <CheckboxLabel htmlFor={id}>{children}</CheckboxLabel>
-        </CheckboxContainer>
+            <SelectionBoxLabel htmlFor={id}>{children}</SelectionBoxLabel>
+        </SelectionBoxContainer>
     )
 }
 
-Checkbox.propTypes = {
+SelectionBox.propTypes = {
     /**
     Whether or not the checkbox should be filled in
      */
-    checked: PropTypes.bool,
+    checked: PropTypes.bool.isRequired,
     /**
     Whether or not the checkbox and label should be disabled/grayed-out
      */
@@ -93,9 +113,9 @@ Checkbox.propTypes = {
      */
     onChange: PropTypes.func.isRequired,
     /**
-    The `name` attribute which can be used for modifying state
+    The `name` attribute which can be used for modifying state, specifically when state is an object with key/value pairs. (This `name` prop is usually used as the key for object state. If using hooks with a simple boolean state, `name` is not required.)
      */
-    name: PropTypes.string.isRequired,
+    name: PropTypes.string,
     /**
     The text/elements to display on the associated label
      */
@@ -104,11 +124,15 @@ Checkbox.propTypes = {
     `id` is required for the `htmlFor` attribute to work internally. Must be unique.
      */
     id: PropTypes.string.isRequired,
+    /**
+    Just like in HTML
+     */
+    type: PropTypes.oneOf(["radio", "checkbox"]).isRequired,
 }
 
-Checkbox.defaultProps = {
+SelectionBox.defaultProps = {
     checked: false,
     disabled: false,
 }
 
-export default Checkbox
+export default SelectionBox
