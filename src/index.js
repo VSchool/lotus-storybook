@@ -1,61 +1,29 @@
-import React, { useState } from "react"
+import React from "react"
 import ReactDOM from "react-dom"
-import SelectionBox from "./components/Controls/SelectionBox"
+import Radio from "./components/Controls/Radio"
+import Checkbox from "./components/Controls/Checkbox"
+import Switch from "./components/Controls/Switch"
+
+import "./styles.scss"
 
 function App() {
-    const [formData, setFormData] = useState({})
-
-    function handleChange(e) {
-        const { name, value, type, checked } = e.target
-        console.log(value)
-        setFormData((prev) => ({
-            ...prev,
-            [name]: type === "checkbox" ? checked : value,
-        }))
-    }
-
-    console.log(formData)
-
     return (
         <>
-            <SelectionBox
-                name="gender"
-                id="male"
-                onChange={handleChange}
-                type="radio"
-                value="male"
-                checked={formData.gender === "male"}
-            >
+            <Radio name="gender" value="male">
                 Male
-            </SelectionBox>
-            <SelectionBox
-                name="gender"
-                id="female"
-                onChange={handleChange}
-                type="radio"
-                value="female"
-                checked={formData.gender === "female"}
-            >
+            </Radio>
+            <Radio name="gender" value="female">
                 Female
-            </SelectionBox>
-            <SelectionBox
-                checked={formData["kosher"]}
-                name="kosher"
-                id="kosher"
-                onChange={handleChange}
-                type="checkbox"
-            >
-                Vegan
-            </SelectionBox>
-            <SelectionBox
-                checked={formData["vegan"]}
-                name="vegan"
-                id="vegan"
-                onChange={handleChange}
-                type="checkbox"
-            >
+            </Radio>
+            <Checkbox name="kosher" value="kosher">
                 Kosher
-            </SelectionBox>
+            </Checkbox>
+            <Checkbox name="vegan" value="vegan">
+                Vegan
+            </Checkbox>
+            <Switch name="vegan" value="vegan">
+                On
+            </Switch>
         </>
     )
 }

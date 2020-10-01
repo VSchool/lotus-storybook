@@ -2,7 +2,7 @@ import React from "react"
 import { Accordion, AccordionGroup } from "../components/Accordion"
 
 export default {
-    title: "Atomic/Accordion/AccordionGroup",
+    title: "Components/Accordion/AccordionGroup",
     component: AccordionGroup,
     decorators: [
         (Story) => (

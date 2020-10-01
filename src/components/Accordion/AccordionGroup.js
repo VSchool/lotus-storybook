@@ -1,8 +1,6 @@
 import React from "react"
 import styled from "styled-components"
-import PropTypes from "prop-types"
 import { gray } from "../../colors"
-import Accordion from "./Accordion"
 import "../../styles.scss"
 
 const Group = styled.section`
